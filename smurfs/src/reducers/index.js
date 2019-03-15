@@ -5,14 +5,15 @@
 import {
   FETCH_SMURFS_START,
   FETCH_SMURFS_SUCCESS,
-  FETCH_SMURFS_FAILURE
+  FETCH_SMURFS_FAILURE,
+  ADD_SMURF
 } from '../actions'
 
 
 const initialState = {
    smurfs: [],
    fetchingSmurfs: false,
-  //  addingSmurf: false,
+   addingSmurf: false,
   //  updatingSmurf: false,
   //  deletingSmurf: false,
    error: null
@@ -38,6 +39,12 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         error: action.payload
+      };
+      case ADD_SMURF:
+      return {
+        ...state,
+        smurfs: action.payload,
+        addingSmurf: true
       };
     default:
       return state;

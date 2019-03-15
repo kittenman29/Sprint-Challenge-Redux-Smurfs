@@ -1,4 +1,4 @@
-import { getSmurfs } from '../actions'
+import { getSmurfs, addNewSmurf } from '../actions'
 
 import React, { Component } from 'react';
 import { connect } from "react-redux";
@@ -11,10 +11,31 @@ import './App.css';
  `How do I ensure that my component links the state to props?`
  */
 class App extends Component {
+  state = {
+    smurf: {
+      name: '',
+      age: '',
+      height: ''
+    }
+  };
+
   componentDidMount() {
     this.props.getSmurfs();
   }
 
+  handleInputChange = e => {
+    this.setState({ 
+      smurf: {
+        ...this.state.smurf,
+        [e.target.name]: e.target.value 
+      }
+    });
+  };
+
+  addNewSmurf = event => {
+    event.preventDefault();
+    this.props.addNewSmurf(this.state.newSmurf);
+  };
 
   render() {
     console.log(this.props.smurfs);
@@ -29,7 +50,28 @@ class App extends Component {
                   <p>{smurf.height}</p>
                 </div>
               )})}
-            </section>
+          </section>
+          <form onSubmit={(e) => this.props.addNewSmurf(e, this.props.smurf)}>
+            <input
+              onChange={this.handleInputChange}
+              placeholder="name"
+              value={this.props.name}
+              name="name"
+            />
+            <input
+              onChange={this.handleInputChange}
+              placeholder="age"
+              value={this.props.age}
+              name="age"
+            />
+            <input
+              onChange={this.handleInputChange}
+              placeholder="height"
+              value={this.props.height}
+              name="height"
+            />
+            <button type="submit">Add new Smurf</button>
+          </form>
         </div>
     );
   }
@@ -46,5 +88,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSmurfs }
+  { getSmurfs, addNewSmurf }
 )(App);

@@ -21,6 +21,17 @@ export const getSmurfs = () => dispatch => {
     });
 };
 
+export const ADD_SMURF = 'ADD_SMURF'; // action type
+
+export function addNewSmurf(addNewSmurf) {
+  // console.log('addNewSmurf ActionCreator - newSmurf: ', newSmurf);
+  // action - plain object with a required type prop, and optional payload/data/whatever
+  return {
+    type: ADD_SMURF,
+    payload: addNewSmurf
+  };
+}
+
 /*
   For this project you'll need at least 2 action creators for the main portion,
    and 2 more for the stretch problem.

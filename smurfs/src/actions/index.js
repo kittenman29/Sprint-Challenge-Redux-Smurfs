@@ -21,16 +21,22 @@ export const getSmurfs = () => dispatch => {
     });
 };
 
-export const ADD_SMURF = 'ADD_SMURF'; // action type
+export const ADDING_SMURF = 'ADDING_SMURF';
+export const ADD_SMURF = 'ADD_SMURF';
+export const ADD_SMURF_ERROR = 'ADD_SMURF_ERROR';
 
-export function addNewSmurf(addNewSmurf) {
-  // console.log('addNewSmurf ActionCreator - newSmurf: ', newSmurf);
-  // action - plain object with a required type prop, and optional payload/data/whatever
-  return {
-    type: ADD_SMURF,
-    payload: addNewSmurf
+export const addNewSmurf = newSmurf => {
+  return dispatch => {
+    dispatch({ type: ADDING_SMURF });
+    axios.post("http://localhost:3333/smurfs", newSmurf)
+      .then(({ data }) => {
+        dispatch({ type: ADD_SMURF, payload: data });
+      })
+      .catch(err => {
+        dispatch({ type: ADD_SMURF_ERROR, payload: err });
+      });
   };
-}
+};
 
 /*
   For this project you'll need at least 2 action creators for the main portion,

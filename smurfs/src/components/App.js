@@ -1,7 +1,10 @@
-import { getSmurfs, addNewSmurf } from '../actions'
+import { getSmurfs } from '../actions'
 
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+
+import Smurfs from './Smurfs';
+import SmurfsForm from './SmurfsForm';
 
 import './App.css';
 /*
@@ -11,68 +14,25 @@ import './App.css';
  `How do I ensure that my component links the state to props?`
  */
 class App extends Component {
-  state = {
-    smurf: {
-      name: '',
-      age: '',
-      height: ''
-    }
-  };
-
   componentDidMount() {
     this.props.getSmurfs();
   }
-
-  handleInputChange = e => {
-    this.setState({ 
-      smurf: {
-        ...this.state.smurf,
-        [e.target.name]: e.target.value 
-      }
-    });
-  };
-
-  addNewSmurf = event => {
-    event.preventDefault();
-    this.props.addNewSmurf(this.state.newSmurf);
-  };
-
   render() {
-    console.log(this.props.smurfs);
     return (
-        <div className="App">
-          <section id='main-content'>
-          {this.props.smurfs.map((smurf, index) => {
-              return (
-                <div key={index.name}>
-                  <p>{smurf.name}</p>
-                  <p>{smurf.age}</p>
-                  <p>{smurf.height}</p>
-                </div>
-              )})}
-          </section>
-          <form onSubmit={(e) => this.props.addNewSmurf(e, this.props.smurf)}>
-            <input
-              onChange={this.handleInputChange}
-              placeholder="name"
-              value={this.props.name}
-              name="name"
-            />
-            <input
-              onChange={this.handleInputChange}
-              placeholder="age"
-              value={this.props.age}
-              name="age"
-            />
-            <input
-              onChange={this.handleInputChange}
-              placeholder="height"
-              value={this.props.height}
-              name="height"
-            />
-            <button type="submit">Add new Smurf</button>
-          </form>
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-Title">Smurfs</h1>
+          <SmurfsForm />
+        </header>
+        {this.props.error ? <h3>Error Fetching Friends</h3> : null}
+        <div className="Flex-Container">
+          {this.props.fetchingSmurfs ? (
+            <h3>Having trouble summoning the smurfs</h3>
+          ) : (
+            <Smurfs smurfs={this.props.smurfs} />
+          )}
         </div>
+      </div>
     );
   }
 }
@@ -88,5 +48,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSmurfs, addNewSmurf }
+  { getSmurfs }
 )(App);

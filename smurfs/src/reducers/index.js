@@ -2,12 +2,7 @@
   Be sure to import in all of the action types from `../actions`
 */
 
-import {
-  FETCH_SMURFS_START,
-  FETCH_SMURFS_SUCCESS,
-  FETCH_SMURFS_FAILURE,
-  ADD_SMURF
-} from '../actions'
+import * as actionTypes from '../actions';
 
 
 const initialState = {
@@ -20,32 +15,19 @@ const initialState = {
 };
 
 function reducer(state = initialState, action) {
-  console.log("reducer", action);
   switch (action.type) {
-    case FETCH_SMURFS_START:
-      return {
-        ...state,
-        error: "",
-        fetchingSmurfs: true
-      };
-      case FETCH_SMURFS_SUCCESS:
-      return {
-        ...state,
-        error: "",
-        fetchingSmurfs: false,
-        smurfs: action.payload
-      };
-      case FETCH_SMURFS_FAILURE:
-      return {
-        ...state,
-        error: action.payload
-      };
-      case ADD_SMURF:
-      return {
-        ...state,
-        smurfs: action.payload,
-        addingSmurf: true
-      };
+    case actionTypes.FETCH_SMURFS_START:
+      return { ...state, fetchingSmurfs: true};
+    case actionTypes.FETCH_SMURFS_SUCCESS:
+      return { ...state, fetchingSmurfs: false, smurfs: action.payload };
+    case actionTypes.FETCH_SMURFS_FAILURE:
+      return { ...state, error: action.payload };
+    case actionTypes.ADDING_SMURF:
+      return { ...state, addingSmurf: true };
+    case actionTypes.ADD_SMURF:
+      return { ...state, smurfs: action.payload, addingSmurf: false };
+    case actionTypes.ADD_SMURF_ERROR:
+      return { ...state, error: action.payload };
     default:
       return state;
   }
